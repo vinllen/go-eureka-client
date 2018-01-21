@@ -42,6 +42,7 @@ type Port struct {
 	Enabled bool `xml:"enabled,attr" json:"@enabled"`
 }
 type InstanceInfo struct {
+	InstanceId                    string          `xml:"instanceId" json:"instanceId"`
 	HostName                      string            `xml:"hostName" json:"hostName"`
 	HomePageUrl                   string            `xml:"homePageUrl,omitempty" json:"homePageUrl,omitempty"`
 	StatusPageUrl                 string            `xml:"statusPageUrl" json:"statusPageUrl"`
@@ -103,7 +104,7 @@ func NewRawRequest(method, relativePath string, body []byte, cancel <-chan bool)
 	}
 }
 
-func NewInstanceInfo(hostName, app, ip string, port int, ttl uint, isSsl bool) *InstanceInfo {
+func NewInstanceInfo(instanceId, hostName, app, ip string, port int, ttl uint, isSsl bool) *InstanceInfo {
 	dataCenterInfo := &DataCenterInfo{
 		Name: "MyOwn",
 		Class:    "com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo",
@@ -113,6 +114,7 @@ func NewInstanceInfo(hostName, app, ip string, port int, ttl uint, isSsl bool) *
 		EvictionDurationInSecs: ttl,
 	}
 	instanceInfo := &InstanceInfo{
+		InstanceId:     instanceId,
 		HostName:       hostName,
 		App:            app,
 		IpAddr:         ip,
